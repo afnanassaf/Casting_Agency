@@ -18,7 +18,6 @@ def format_datetime(value, format='medium'):
       format="EE MM, dd, y h:mma"
   return babel.dates.format_datetime(date, format)
 
-# app.jinja_env.filters['datetime'] = format_datetime
 
 def create_app(test_config=None):
   # create and configure the app
@@ -29,20 +28,20 @@ def create_app(test_config=None):
 
 
 
-  '''
-  @TODO: Use the after_request decorator to set Access-Control-Allow
-  '''
   @app.after_request
   def after_request(response):
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
         response.headers.add('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE,OPTIONS')
         return response
 
-  '''
-  @TODO: 
-  Create an endpoint to handle GET requests 
-  for all available categories.
-  '''
+
+
+  @app.route('/home')
+  def get_home():
+     return  jsonify({'message':'Welcome To Casting Agency' })
+
+
+
   @app.route('/actors')
   @requires_auth('get:actors')
   def get_actors():
@@ -244,99 +243,6 @@ def create_app(test_config=None):
           abort(404)
 
       return  jsonify({'success':True, 'movies':formatted_movies, 'totalMovies':len(formatted_movies)})
-
-#   @app.route('/questions',  methods=['POST'])
-#   @cross_origin()
-#   def create_question():
-#       body = request.get_json(force=True)
-
-#       if  body==None :
-#          abort(422)
-
-
-#       new_question = body.get('question', None)
-#       new_answer = body.get('answer', None)
-#       new_category = body.get('category', None)
-#       new_difficulty = body.get('difficulty', None)
-
-#       try:
-#          question = Question (question=new_question, answer=new_answer, difficulty=new_difficulty, category=new_category )
-#          question.insert()
-
-#          selection = Question.query.order_by(Question.id).all()
-#          page =  request.args.get('page', 1, type=int)
-#          start = (page - 1 ) * QUESTIONS_PER_PAGE
-#          end = start + QUESTIONS_PER_PAGE
-#          current_question = selection[start:end]
-#          formatted_questions = [ question.format() for question in current_question ]
-         
-#          return  jsonify({'success':True, 'questions':formatted_questions,'totalQuestions':len(formatted_questions)})    
-#       except:
-#          abort(422)
-
-
-#   @app.route('/categories/<int:category>/questions',  methods=['GET'])
-#   def get_question(category):
-         
-#          question = []
-#          question_category=Question.query.filter_by(id=category)
-#          formatted_question = [ question.format() for question in question_category]
-
-#          if (len(formatted_question) == 0):
-#             abort(404)
-
-#          return  jsonify({'questions':formatted_question,'total_questions': len(formatted_question), 'current_category':category })
-
-
-#   @app.route('/questions/search',  methods=['POST'])
-#   @cross_origin()
-#   def search_question():
-#       body = request.get_json()
-
-#       search_keyword = body.get('searchTerm', None)
-
-
-#       serch_result = Question.query.filter(Question.question.ilike('%'+search_keyword+'%'))
-#       formatted_serch_result = [ question.format() for question in serch_result]
-
-#       if len(formatted_serch_result) == 0 :
-#           abort(404)
-
-#       return  jsonify({'total_questions':len(formatted_serch_result), 'questions':formatted_serch_result, 'current_category':formatted_serch_result })
-
-
-
-#   @app.route('/quizzes',  methods=['POST'])
-#   @cross_origin()
-#   def get_quiz():
-#          body = request.get_json()
-
-#          previous_questions = body.get('previousQuestions', None)
-#          quiz_category = body.get('quizCategory', None)
-
-#          question_category=Question.query.filter_by(category=quiz_category).all()
-         
-#          questions_id = []
-#          if  previous_questions!=None :
-#             for q in previous_questions:
-#                questions_id.append(q.get(id))
-
-#          print ( len(question_category))
-
-#          while True:
-#             question = random.choice(question_category)
-#             question_category.remove(question)
-            
-#             if questions_id!=None :
-#                if  not question.id in questions_id:
-#                   print('true')
-#                   break
-
-#             if (len(question_category) == 0):
-#                 abort(404)
-
-#          formatted_question = [ question.format() ]
-#          return  jsonify({'showAnswer': False, 'currentQuestion':formatted_question,'previousQuestions':previous_questions })
 
 
 

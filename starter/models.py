@@ -99,16 +99,3 @@ class Actor(db.Model):
     }
 
 
-
-# class Test(db.Model):  
-#   __tablename__ = 'test'
-
-#   id = Column(Integer, primary_key=True)
-
-#   def __init__(self, id):
-#     self.id = id
-
-#   def format(self):
-#     return {
-#       'id': self.id,
-#     }
