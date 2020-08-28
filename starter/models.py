@@ -6,7 +6,7 @@ from flask_script import Manager
 import json
 
 database_name = "casting_agency"
-database_path = "postgres://postgres:1234567@localhost:5433/casting_agency"
+database_path = "postgres://qdmnwgvkmvgclw:0cab9cab135a612c7d43e474bc867ac757920fc9d27fa60a17ed23d43702001a@ec2-54-146-91-153.compute-1.amazonaws.com:5432/dfjulbtip6aflk"
 
 
 db = SQLAlchemy()
