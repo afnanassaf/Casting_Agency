@@ -24,7 +24,7 @@ class CastingAgencyCase(unittest.TestCase):
         self.app = create_app()
         self.client =self.app.test_client
         self.database_name = "casting_agency_test"
-        self.database_path = "postgres://postgres:1234567@localhost:5433/casting_agency"
+        self.database_path = "postgres://postgres:1234567@localhost:5433/casting_agency_test"
         setup_db(self.app, self.database_path)
 
         with self.app.app_context():
