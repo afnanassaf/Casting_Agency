@@ -86,7 +86,6 @@ def create_app(test_config=None):
       new_age = body.get('age', None)
       new_gender = body.get('gender', None)
       new_name = body.get('name', None)
-      new_id = body.get('id', None)
 
       try:
         actor = Actor (age=new_age, gender=new_gender, name=new_name )
@@ -181,7 +180,7 @@ def create_app(test_config=None):
          abort(422)
 
       movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
-      if actor is None:
+      if movie is None:
          abort(404)
 
       new_title = body.get('title', None)
@@ -202,7 +201,7 @@ def create_app(test_config=None):
         current_movies = selection[start:end]
         formatted_movies = [ movie.format() for movie in current_movies ]
          
-        return  jsonify({'success':True, 'movies':formatted_actors,'totalMovies':len(formatted_movies)})    
+        return  jsonify({'success':True, 'movies':formatted_movies,'totalMovies':len(formatted_movies)})    
       except:
        abort(422)
 
@@ -211,14 +210,14 @@ def create_app(test_config=None):
   @requires_auth('delete:actors')
   def delete_actor(actor_id):
 
-      actor = Actor.query.filter(Movie.id == actor_id).one_or_none()
+      actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
 
       if actor is None:
          abort(404)
 
       actor.delete()
       actors = Actor.query.order_by(Actor.id).all()
-      formatted_actors = [ actors.format() for actor in actors]
+      formatted_actors = [ actor.format() for actor in actors]
 
       if len(formatted_actors) == 0 :
           abort(404)
