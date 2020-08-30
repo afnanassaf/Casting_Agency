@@ -37,6 +37,7 @@ def create_app(test_config=None):
 
 
   @app.route('/home')
+  @requires_auth('get:home')
   def get_home():
      return  jsonify({'message':'Welcome To Casting Agency' })
 
